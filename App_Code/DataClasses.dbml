@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TravelerMonitoring" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=BOSTANI-24881\SQL2008;Initial Catalog=TravelerMonitoring;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="TravelerMonitoringConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.TblPriority" Member="TblPriorities">
+    <Type Name="TblPriority">
+      <Column Name="AutoID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Priority" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PriorityAlphabet" Type="System.String" DbType="NVarChar(1)" CanBeNull="true" />
+      <Association Name="TblPriority_TblTraveler" Member="TblTravelers" ThisKey="AutoID" OtherKey="Priority" Type="TblTraveler" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblProcess" Member="TblProcesses">
+    <Type Name="TblProcess">
+      <Column Name="AutoID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Process" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="TblProcess_TblTravelerProcess" Member="TblTravelerProcesses" ThisKey="AutoID" OtherKey="ProcessAutoID" Type="TblTravelerProcess" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblStatus" Member="TblStatus">
+    <Type Name="TblStatus">
+      <Column Name="AutoID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TblStatus_TblTraveler" Member="TblTravelers" ThisKey="AutoID" OtherKey="Status" Type="TblTraveler" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblTravelerProcess" Member="TblTravelerProcesses">
+    <Type Name="TblTravelerProcess">
+      <Column Name="AutoID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TravelerAutoID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ProcessAutoID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateIn" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="DateOut" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="TblProcess_TblTravelerProcess" Member="TblProcess" ThisKey="ProcessAutoID" OtherKey="AutoID" Type="TblProcess" IsForeignKey="true" />
+      <Association Name="TblTraveler_TblTravelerProcess" Member="TblTraveler" ThisKey="TravelerAutoID" OtherKey="AutoID" Type="TblTraveler" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblUserAccessLevel" Member="TblUserAccessLevels">
+    <Type Name="TblUserAccessLevel">
+      <Column Name="AutoID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AccessLevelID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="TblUserName_TblUserAccessLevel" Member="TblUserName" ThisKey="UserID" OtherKey="AutoID" Type="TblUserName" IsForeignKey="true" />
+      <Association Name="TblAccessLevel_TblUserAccessLevel" Member="TblAccessLevel" ThisKey="AccessLevelID" OtherKey="AutoID" Type="TblAccessLevel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblUserName" Member="TblUserNames">
+    <Type Name="TblUserName">
+      <Column Name="AutoID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TblUserName_TblUserAccessLevel" Member="TblUserAccessLevels" ThisKey="AutoID" OtherKey="UserID" Type="TblUserAccessLevel" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblAccessLevel" Member="TblAccessLevels">
+    <Type Name="TblAccessLevel">
+      <Column Name="AutoID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AccessLevel" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TblAccessLevel_TblUserAccessLevel" Member="TblUserAccessLevels" ThisKey="AutoID" OtherKey="AccessLevelID" Type="TblUserAccessLevel" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TblTraveler" Member="TblTravelers">
+    <Type Name="TblTraveler">
+      <Column Name="AutoID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TravelerNo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Priority" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OrderDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="EditedDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Finished" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="TblTraveler_TblTravelerProcess" Member="TblTravelerProcesses" ThisKey="AutoID" OtherKey="TravelerAutoID" Type="TblTravelerProcess" />
+      <Association Name="TblStatus_TblTraveler" Member="TblStatus" ThisKey="Status" OtherKey="AutoID" Type="TblStatus" IsForeignKey="true" />
+      <Association Name="TblPriority_TblTraveler" Member="TblPriority" ThisKey="Priority" OtherKey="AutoID" Type="TblPriority" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

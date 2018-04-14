@@ -1,0 +1,28 @@
+﻿.LoginDIV
+{
+    height: 250px;
+    width: 400px;
+    background-color: #EDE9D5;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;
+    border: 1px solid black;
+}
+
+.LoginDIVHeder
+{
+    text-align: center;
+    background-color: Red;
+    height: 30px;
+    width: 100%;
+}
+
+.LoginDIVTextBoxContainer
+{
+    height: 210px;
+    width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+

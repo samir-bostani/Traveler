@@ -1,0 +1,54 @@
+﻿ 
+ 
+ <!------------- Strat Edit Project And Show Panle Shadow Box -------->
+    <div id="PanleProjectEdit" class="MainPopupPanelDIV">
+        <!-- HederText -->
+        <div class="MainPopupPanelHederDIV">
+            <span class="MainPopupPanelHederText">Traveler Monitoring</span>
+        </div>
+        <!-- Start Content-->
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
+                <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <!-- End Content -->
+        <div class="ButtonPopupPanelDIV">
+            <input id="Cancle" type="button" value="Cancle" onclick="$('#PanleProjectEdit').hideModal();" />
+            <asp:Button ID="OK" runat="server" Text="Update" />
+            <asp:HiddenField ID="HiddenFieldAutoID" runat="server" />
+        </div>
+    </div>
+    <!------------- End Edit Project And Show Panle Shadow Box -------->
+
+	 //Show Update Panel
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "key", "$(document).ready(function(){$('#PanleProjectEdit').showModal();});", true);
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+ <!------------- Side By Side  DIV -------->
+    <div style="height: 100px; width: 100%; background-color: Blue;">
+        <div style="height: 100px; float: left; width: 80%; background-color: Red; border: 1px solid black">
+        </div>
+        <div style="height: 100px; float: right; background-color: Green;">
+        </div>
+    </div>
+    <div style="clear: both;">
+    </div>
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+ //show message
+                string msg = " alert('خطا در خواندن اطلاعات');";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "key", msg, true);
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+

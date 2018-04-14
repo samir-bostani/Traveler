@@ -1,0 +1,102 @@
+﻿body
+{
+     margin:1px;
+}
+
+.PageHederMainDIV
+{
+    height: 500px;
+    width: 100%;
+    background-color: White;
+    margin: 0px;
+    margin-top: 0px;
+}
+
+.PageHederDIV
+{
+    height: 200px;
+    width: 100%;
+    background-color: #FFF9E7;
+    text-align: center;
+    margin: 0px;
+    margin-bottom:0px;
+}
+
+.MasterPageHederText
+{
+    font-size: 40pt;
+    font-weight: bold;
+    color: Black;
+    line-height: 180px;
+    vertical-align: middle;
+}
+
+.MenuDIV
+{
+    width: 100%;
+    background-color: #BFBFBF;
+    margin: 0px;
+    padding: 0px;
+    vertical-align: middle;
+    line-height: 30px;
+    margin-bottom:0px;
+}
+
+/*--------------------------------------------- Menu styles  -------------------------------------------*/
+#menu
+{
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
+    background-color: #2E4A6C;
+    color: #FFFFFF;
+    width: 100%;
+    display:table;
+}
+#menu ul.main
+{
+    margin: 0px 0px 0px auto;
+    padding: 0px;
+    list-style-type: none;
+   
+}
+#menu li
+{
+    padding: 0px;
+    margin: 0px;
+    position: relative;
+    float: left;
+    list-style-type: none;
+}
+#menu li a
+{
+    font-size: 12px;
+    font-weight: normal;
+    color: #FFFFFF;
+    text-decoration: none;
+    width: 130px;
+    display: block;
+    text-align: center;
+    line-height: 26px;
+    background-color: #2E4A6C;
+    border: 0px solid #999999;
+}
+#menu li a:hover
+{
+    border: 0px solid #CCCCCC;
+    color: #000000;
+    vertical-align: bottom;
+    background-color: #FFCC00;
+    font-weight: bold;
+}
+#menu ul ul
+{
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 26px;
+    visibility: hidden;
+}
+#menu ul li:hover ul
+{
+    visibility: visible;
+}
