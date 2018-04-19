@@ -38,7 +38,7 @@ public partial class Login : System.Web.UI.Page
                 Session["user"] = userObj;
 
                 //redirect to main page
-                Response.Redirect("http://localhost/Traveler/Default.aspx");
+                Response.Redirect("Default.aspx");
             }
 
         }
