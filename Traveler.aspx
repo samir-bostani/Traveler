@@ -204,51 +204,85 @@
         </div>
     </div>
     <!---------------------------------------- End Panle Traveler Edit ---------------------------------------->
+    <h1 style="text-align: center">
+        Masking</h1>
     <!---------------------------------------- Strat GridView Traveler Info ---------------------------------------->
-    <div class="TotlContainerDIV">
-        <div class="GridViewHederDIV">
-            <span class="GridViewHederText">Traveler Info</span>
-        </div>
-        <asp:HiddenField ID="hfScrollPosition" runat="server" Value="0" />
-        <div id="DIVScroll" class="GridViewContainerDIV" onscroll="setScrollPosition(this.scrollTop);">
-            <asp:GridView ID="GridViewTraveler" runat="server" CellPadding="4" ForeColor="#333333"
-                GridLines="None" Width="100%" AutoGenerateColumns="False" CellSpacing="1" AllowSorting="True"
-                DataKeyNames="AutoID" onrowcommand="GridViewTraveler_RowCommand">
-                <AlternatingRowStyle CssClass="DataGridAlterNativeRowStyle" />
-                <Columns>
-                    <asp:BoundField DataField="RowNumber" HeaderText="No" />
-                    <asp:TemplateField ShowHeader="False">
-                        <ItemTemplate>
-                            <asp:LinkButton ForeColor=Red ID="LinkButton2" runat="server" CausesValidation="False" 
-                                CommandName="out" CommandArgument='<%# Eval("AutoID") %>' Text="Out" OnClientClick="return confirm('Are You Sure To Out Traveler?');" ></asp:LinkButton>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Traveler No">
-                        <ItemTemplate>
-                            <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Select"
-                                Text='<%# Bind("TravelerNo") %>'  ></asp:LinkButton>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:BoundField DataField="Priority" HeaderText="Priority" />
-                    <asp:BoundField DataField="Status" HeaderText="Status" />
-                    <asp:BoundField DataField="JobDescription" HeaderText="Job Description" />
-                    <asp:BoundField DataField="OrderDate" HeaderText="Due Date" />
-                    <asp:BoundField DataField="Process" HeaderText="Next Process" />
-                </Columns>
-                <EditRowStyle BackColor="#999999" />
-                <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-                <SortedAscendingCellStyle BackColor="#E9E7E2" />
-                <SortedAscendingHeaderStyle BackColor="#506C8C" />
-                <SortedDescendingCellStyle BackColor="#FFFDF8" />
-                <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
-                <RowStyle CssClass="DataGridRowStyle" />
-            </asp:GridView>
-        </div>
-    </div>
-    <!---------------------------------------- End GridView Traveler Info ---------------------------------------->
+    <asp:UpdatePanel runat="server">
+        <ContentTemplate>
+            <asp:Timer ID="Timer1" runat="server" Interval="6000" OnTick="Timer1_Tick">
+            </asp:Timer>
+            <div class="TotlContainerDIV">
+                <div class="GridViewHederDIV">
+                    <span class="GridViewHederText">Traveler Info</span>
+                </div>
+                <asp:HiddenField ID="hfScrollPosition" runat="server" Value="0" />
+                <div id="DIVScroll" class="GridViewContainerDIV" onscroll="setScrollPosition(this.scrollTop);">
+                    <asp:GridView ID="GridViewTraveler" runat="server" CellPadding="4" ForeColor="#333333"
+                        GridLines="None" Width="100%" AutoGenerateColumns="False" CellSpacing="1" AllowSorting="True"
+                        DataKeyNames="AutoID" OnRowCommand="GridViewTraveler_RowCommand" OnSorting="GridViewTraveler_Sorting">
+                        <AlternatingRowStyle CssClass="DataGridAlterNativeRowStyle" />
+                        <Columns>
+                            <asp:BoundField DataField="RowNumber" HeaderText="No" />
+                            <asp:TemplateField ShowHeader="False">
+                                <ItemTemplate>
+                                    <asp:LinkButton ForeColor="Red" ID="LinkButton2" runat="server" CausesValidation="False"
+                                        CommandName="out" CommandArgument='<%# Eval("AutoID") %>' Text="Out" OnClientClick="return confirm('Are You Sure To Out Traveler?');"></asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Traveler No">
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Select"
+                                        Text='<%# Bind("TravelerNo") %>'></asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:BoundField DataField="Priority" HeaderText="Priority" SortExpression="Priority" />
+                            <asp:BoundField DataField="Status" HeaderText="Status" />
+                            <asp:BoundField DataField="JobDescription" HeaderText="Job Description" />
+                            <asp:BoundField DataField="OrderDate" HeaderText="Due Date" />
+                            <asp:BoundField DataField="Process" HeaderText="Next Process" />
+                        </Columns>
+                        <EditRowStyle BackColor="#999999" />
+                        <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                        <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                        <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                        <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                        <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                        <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                        <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+                        <RowStyle CssClass="DataGridRowStyle" />
+                    </asp:GridView>
+                </div>
+            </div>
+            <!---------------------------------------- End GridView Traveler Info ---------------------------------------->
+            <!----------------------------------------  Strat Status ---------------------------------------->
+            <div class="StatusDIV" style="margin-bottom: 5px">
+                <div style="padding: 5px;">
+                    <span>Total Traveler:</span>
+                    <asp:Label ID="LabelTotalTraveler" runat="server" Text="Label" ForeColor="Blue"></asp:Label>
+                </div>
+                <table border="0" cellpadding="2" cellspacing="2">
+                    <tr>
+                        <td>
+                            Hi Priority:
+                        </td>
+                        <td>
+                            <asp:Label ID="lbl_hi" Text="non" runat="server" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Normal Priority:
+                        </td>
+                        <td>
+                            <asp:Label ID="Lbl_normal" Text="non" runat="server" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!----------------------------------------  End Status ---------------------------------------->
+        </ContentTemplate>
+    </asp:UpdatePanel>
     <!----------------------------------------  Start script MaintainScrollPosition GridView---------------------------------------->
     <script type="text/javascript">
         $(document).ready(function () {
@@ -268,16 +302,6 @@
         }
     </script>
     <!---------------------------------------- End script MaintainScrollPosition GridView ---------------------------------------->
-    <!----------------------------------------  Strat Status ---------------------------------------->
-    <div class="StatusDIV" style="margin-bottom: 5px">
-        <div style="padding: 5px;">
-            <span>Total Traveler:</span>
-            <asp:Label ID="LabelTotalTraveler" runat="server" Text="Label" ForeColor="Blue"></asp:Label>
-            <span style="margin-left: 20px">Fineshed Traveler:</span>
-            <asp:Label ID="LabelFineshedTraveler" runat="server" Text="Label" ForeColor="Blue"></asp:Label>
-        </div>
-    </div>
-    <!----------------------------------------  End Status ---------------------------------------->
     <!----------------------------------------  Strat Command Button ---------------------------------------->
     <div class="ButtonDIV">
         <asp:Button ID="ButtonTravelerAdd" runat="server" Text="Add Traveler" OnClick="ButtonTravelerAdd_Click" />

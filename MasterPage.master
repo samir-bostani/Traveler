@@ -38,9 +38,10 @@
     </div>
     <%------------Main-----------%>
     <div class="PageHederMainDIV">
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">  
         </asp:ContentPlaceHolder>
     </div>
     </form>
+    <div style="text-align:center;margin-top:150px">ver 0.3 (4/27/18)</div>
 </body>
 </html>

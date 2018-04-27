@@ -12,7 +12,7 @@ public partial class Traveler : System.Web.UI.Page
 
     private class TravelerViewObject
     {
-        public int AutoID   { get; set; }
+        public int AutoID { get; set; }
         public int RowNumber { get; set; }
         public DateTime? OrderDate { get; set; }
         public String JobDescription { get; set; }
@@ -32,20 +32,22 @@ public partial class Traveler : System.Web.UI.Page
             //Read Traveler From Database
             var Result = (from T in TDC.TblTravelers
                           join TP in TDC.TblTravelerProcesses on T.AutoID equals TP.TravelerAutoID
-                          where (T.Finished == null || T.Finished == false) 
+                          where (T.Finished == null || T.Finished == false)
                           select new { T, TP }).ToList();
             //Add Row Number
             int RowNo = 1;
             var ResultWithRowNo = (from i in Result
-                                   select new TravelerViewObject() {AutoID=i.T.AutoID, RowNumber = RowNo++, OrderDate = i.T.OrderDate, JobDescription = i.T.JobDescription, TravelerNo = i.T.TravelerNo, Status = i.T.TblStatus.Status, Process = i.TP.TblProcess.Process, Priority = i.T.TblPriority.Priority }).ToList();
+                                   select new TravelerViewObject() { AutoID = i.T.AutoID, RowNumber = RowNo++, OrderDate = i.T.OrderDate, JobDescription = i.T.JobDescription, TravelerNo = i.T.TravelerNo, Status = i.T.TblStatus.Status, Process = i.TP.TblProcess.Process, Priority = i.T.TblPriority.Priority }).ToList();
 
             // Load Traveler Data To Grid
-            GridViewTraveler.DataSource = ResultWithRowNo.ToList();
+            GridViewTraveler.DataSource = ResultWithRowNo.OrderBy(x => x.Priority).ThenByDescending(x => x.OrderDate).ToList();
             GridViewTraveler.DataBind();
 
             //update Status Lable
-            LabelTotalTraveler.Text = TDC.TblTravelers.Count().ToString();
-            LabelFineshedTraveler.Text = TDC.TblTravelers.Where(x => x.Finished == true).Count().ToString();
+            LabelTotalTraveler.Text = TDC.TblTravelers.Where(x => x.Finished != true || x.Finished==null).Count().ToString();
+            lbl_hi.Text = TDC.TblTravelers.Where(x => x.Finished != true || x.Finished == null).Where(x => x.TblPriority.Priority == "Expedite").Count().ToString();
+            Lbl_normal.Text = TDC.TblTravelers.Where(x => x.Finished != true || x.Finished == null).Where(x => x.TblPriority.Priority == "normal").Count().ToString();
+
 
             //Save To Session
             if (Session["TravelerViewObjectList"] == null)
@@ -69,7 +71,7 @@ public partial class Traveler : System.Web.UI.Page
     //Load Page
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+
         // Load GridView
         if (!Page.IsPostBack)
         {
@@ -111,7 +113,7 @@ public partial class Traveler : System.Web.UI.Page
             NewObj.OrderDate = CalendarOrderDateAdd.SelectedDate;
             NewObj.Status = int.Parse(DropDownListStatusAdd.SelectedValue);
             NewObj.JobDescription = TextBoxDescriptionAdd.Text;
-             
+
             //Next Proccess Object
             var TravelerProcessObj = new TblTravelerProcess();
             TravelerProcessObj.ProcessAutoID = int.Parse(DropDownListNexProcessAdd.SelectedValue);
@@ -153,9 +155,9 @@ public partial class Traveler : System.Web.UI.Page
         try
         {
             //Get Selected Traveler Number
-            var SelectedTravelerNo = GridViewTraveler.SelectedDataKey.Value;
+            var SelectedTravelerNo = int.Parse(GridViewTraveler.SelectedDataKey.Value.ToString());
             //Find Traveler 
-            var EditObj = TDC.TblTravelers.Where(x => x.TravelerNo == SelectedTravelerNo).SingleOrDefault();
+            var EditObj = TDC.TblTravelers.Where(x => x.AutoID == SelectedTravelerNo).SingleOrDefault();
             EditObj.Priority = int.Parse(DropDownListPriorityEdit.SelectedValue);
             EditObj.OrderDate = CalendarOrderDateEdit.SelectedDate;
             EditObj.Status = int.Parse(DropDownListStatusEdit.SelectedValue);
@@ -210,7 +212,7 @@ public partial class Traveler : System.Web.UI.Page
         //Set Data To Field
         var SelectedTravelerNo = GridViewTraveler.SelectedDataKey.Value;
         //Find Traveler 
-        var EditObj = TDC.TblTravelers.Where(x => x.AutoID ==(int) SelectedTravelerNo).SingleOrDefault();
+        var EditObj = TDC.TblTravelers.Where(x => x.AutoID == (int)SelectedTravelerNo).SingleOrDefault();
         TextBoxTravelerNoEdit.Text = EditObj.TravelerNo;
         DropDownListPriorityEdit.SelectedItem.Value = EditObj.Priority.Value.ToString();
         CalendarOrderDateEdit.SelectedDate = (System.DateTime)EditObj.OrderDate;
@@ -238,7 +240,7 @@ public partial class Traveler : System.Web.UI.Page
         try
         {
             //Find Traveler 
-            var SelectedTravelerAutoID =(int) GridViewTraveler.SelectedDataKey.Value;
+            var SelectedTravelerAutoID = (int)GridViewTraveler.SelectedDataKey.Value;
             var DelObj = TDC.TblTravelers.Where(x => x.AutoID == SelectedTravelerAutoID).SingleOrDefault();
             TDC.TblTravelers.DeleteOnSubmit(DelObj);
             TDC.SubmitChanges();
@@ -265,15 +267,15 @@ public partial class Traveler : System.Web.UI.Page
         {
             try
             {
-               
+
                 //Find Traveler 
-                var SelectedTravelerAutoID =int.Parse(e.CommandArgument.ToString());
+                var SelectedTravelerAutoID = int.Parse(e.CommandArgument.ToString());
                 var DelObj = TDC.TblTravelers.Where(x => x.AutoID == SelectedTravelerAutoID).SingleOrDefault();
 
                 DelObj.Finished = true;
-                var s= TDC.TblTravelerProcesses.Where(x=>x.TravelerAutoID ==DelObj.AutoID).SingleOrDefault();
+                var s = TDC.TblTravelerProcesses.Where(x => x.TravelerAutoID == DelObj.AutoID).SingleOrDefault();
                 s.DateOut = DateTime.Now;
-               
+
                 TDC.SubmitChanges();
 
                 //Refresh Traveler info Grid
@@ -290,5 +292,41 @@ public partial class Traveler : System.Web.UI.Page
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "key", msg, true);
             }
         }
+    }
+    protected void GridViewTraveler_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        //Get TravelerViewObject List
+        var TravelerViewObjectList = Session["TravelerViewObjectList"] as List<TravelerViewObject>;
+
+        //Save Sort Direction
+        if (Session["SordDir"] == null)
+        {
+            Session.Add("SordDir", "Ascending");
+        }
+
+        //Do Sort
+        if (e.SortExpression == "Priority")
+        {
+            if (Session["SordDir"] as String == "Ascending")
+            {
+                TravelerViewObjectList = TravelerViewObjectList.OrderBy(p => p.Priority).ToList();
+                Session["SordDir"] = "Descending";
+            }
+            else
+            {
+                TravelerViewObjectList = TravelerViewObjectList.OrderByDescending(p => p.Priority).ToList();
+                Session["SordDir"] = "Ascending";
+            }
+
+
+            //Refresh GridView 
+            GridViewTraveler.DataSource = TravelerViewObjectList;
+            GridViewTraveler.DataBind();
+        }
+    }
+    protected void Timer1_Tick(object sender, EventArgs e)
+    {
+        //Refresh Traveler info Grid
+        LoadTravelerInfoGrid();
     }
 }

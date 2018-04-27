@@ -26,6 +26,7 @@
         </div>
     </div>
     <!------------- End Edit Project And Show Panle Shadow Box -------->
+     <h1 style="text-align:center">History</h1>
     <!---------------------------------------- Strat GridView Traveler Info ---------------------------------------->
     <div class="TotlContainerDIV">
         <div class="GridViewHederDIV">
@@ -41,7 +42,7 @@
                     <asp:BoundField DataField="RowNumber" HeaderText="No" />
                     <asp:BoundField DataField="TravelerNo" HeaderText="Traveler No" />
                     <asp:BoundField DataField="Priority" HeaderText="Priority" />
-                    <asp:BoundField DataField="DateIn" HeaderText="Date In" />
+                    <asp:BoundField DataField="DateIn" HeaderText="Due Date" />
                     <asp:BoundField DataField="DateOut" HeaderText="Date Out" />
                     <asp:BoundField DataField="JobDescription" HeaderText="Job Description" />
                 </Columns>
