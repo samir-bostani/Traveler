@@ -40,12 +40,12 @@ public partial class Traveler : System.Web.UI.Page
                                    select new TravelerViewObject() { AutoID = i.T.AutoID, RowNumber = RowNo++, OrderDate = i.T.OrderDate, JobDescription = i.T.JobDescription, TravelerNo = i.T.TravelerNo, Status = i.T.TblStatus.Status, Process = i.TP.TblProcess.Process, Priority = i.T.TblPriority.Priority }).ToList();
 
             // Load Traveler Data To Grid
-            GridViewTraveler.DataSource = ResultWithRowNo.OrderBy(x => x.Priority).ThenByDescending(x => x.OrderDate).ToList();
+            GridViewTraveler.DataSource = ResultWithRowNo.OrderBy(x => x.Priority).ThenBy(x => x.OrderDate).ToList();
             GridViewTraveler.DataBind();
 
             //update Status Lable
             LabelTotalTraveler.Text = TDC.TblTravelers.Where(x => x.Finished != true || x.Finished==null).Count().ToString();
-            lbl_hi.Text = TDC.TblTravelers.Where(x => x.Finished != true || x.Finished == null).Where(x => x.TblPriority.Priority == "Expedite").Count().ToString();
+            lbl_hi.Text = TDC.TblTravelers.Where(x => x.Finished != true || x.Finished == null).Where(x => x.TblPriority.Priority == "Hi").Count().ToString();
             Lbl_normal.Text = TDC.TblTravelers.Where(x => x.Finished != true || x.Finished == null).Where(x => x.TblPriority.Priority == "normal").Count().ToString();
 
 
